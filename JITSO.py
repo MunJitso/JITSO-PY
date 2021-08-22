@@ -2,6 +2,7 @@ import discord
 from discord import channel
 from discord import guild
 from discord.ext import commands
+from discord.ext.commands import has_permission, MissingPermission, MemberConverter
 import random
 
 intents = discord.Intents.default()
@@ -67,27 +68,43 @@ async def on_member_remove(member):
 
 #clear_messages
 @client.command()
-@commands.has_permissions(administrator=True)
+@has_permissions(administrator=True)
 async def clear(ctx, amount=10000000000000000):
         await ctx.channel.purge(limit=amount)
+        
+@clear.error
+async def clear_error(ctx, error):
+        if isinstance(error, MissingPermissions):
+                await ctx.send(f"You don't have the permission to clear messages, **{ctx.message.author}**!")
 
 #kick
 @client.command()
-@commands.has_permissions(administrator=True)
-async def kick(ctx, member: commands.MemberConverter, *, reason=None):
+@has_permissions(administrator=True)
+async def kick(ctx, member: MemberConverter, *, reason=None):
         await member.kick(reason=reason)
         await ctx.send(f'{member} is kicked from our kingdom')
+      
+@kick.error
+async def kick_error(ctx, error):
+        if isinstance(error, MissingPermissions):
+                await ctx.send(f"You don't have the permission to kick people, **{ctx.message.author}**!")
+
 
 #ban
 @client.command()
-@commands.has_permissions(administrator=True)
+@has_permissions(administrator=True)
 async def ban(ctx, member: commands.MemberConverter, *, reason=None):
         await member.ban(reason=reason)
         await ctx.send(f'{member} is banned from our kingdom')
+        
+@ban.error
+async def ban_error(ctx, error):
+        if isinstance(error, MissingPermissions):
+                await ctx.send(f"You don't have the permission to ban people, **{ctx.message.author}**!")
 
 #unban
 @client.command()
-@commands.has_permissions(administrator=True)
+@has_permissions(administrator=True)
 async def unban(ctx, *, member):
         banned_users = await ctx.guild.bans()
         member_name, member_discriminator = member.split('#')
@@ -99,6 +116,11 @@ async def unban(ctx, *, member):
                 await ctx.guild.unban(user)
                 await ctx.send(f'{user.mention} has been unbanned!')
                 return
+        
+@unban.error
+async def unban_error(ctx, error):
+        if isinstance(error, MissingPermissions):
+                await ctx.send(f"You don't have the permission to unban people, **{ctx.message.author}**!")
 
 
 client.run("ODc4MDM3Nzk3MzU1Nzk4NTg5.YR7WbA.aZE15KukYyKmwqe6ZkQeptYZUKs")
