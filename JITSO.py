@@ -2,7 +2,7 @@ import discord
 from discord import channel
 from discord import guild
 from discord.ext import commands
-from discord.ext.commands import has_permission, MissingPermission, MemberConverter
+from discord.ext.commands import has_permissions, MissingPermissions, MemberConverter
 import random
 
 intents = discord.Intents.default()
