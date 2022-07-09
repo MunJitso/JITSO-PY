@@ -123,4 +123,4 @@ async def unban_error(ctx, error):
                 await ctx.send(f"You don't have the permission to unban people, **{ctx.message.author}**!")
 
 
-client.run("ODc4MDM3Nzk3MzU1Nzk4NTg5.YR7WbA.aZE15KukYyKmwqe6ZkQeptYZUKs")
+client.run("Token")
