@@ -14,7 +14,7 @@ client.remove_command('help')
 #bot_is_ready
 @client.event
 async def on_ready():
-        await client.change_presence(status=discord.Status.idle, activity=discord.Game('MunJitso sucks'))
+        await client.change_presence(status=discord.Status.idle, activity=discord.Game('status..'))
         print('We logged in as {0.user}'.format(client))
 
 
